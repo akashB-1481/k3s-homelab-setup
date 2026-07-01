@@ -1,0 +1,30 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-akashlab
+  namespace: vault
+
+spec:
+  secretName: wildcard-akashlab-tls
+
+  issuerRef:
+    name: homelab-cluster-ca
+    kind: ClusterIssuer
+
+  commonName: "*.akashlab.local" # it is like a hostname
+
+  dnsNames:
+    - "*.akashlab.local" # It is like SAN (Subject Alternative Name) for the certificate
+  duration: 2160h
+
+  renewBefore: 360h
+
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    rotationPolicy: Always
+
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
