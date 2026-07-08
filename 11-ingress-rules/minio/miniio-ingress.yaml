@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: minio-console-ingress
+  namespace: miniio
+
+spec:
+  ingressClassName: nginx
+
+  tls:
+    - hosts:
+        - minio.akashlab.local
+      secretName: wildcard-akashlab-tls
+
+  rules:
+    - host: minio.akashlab.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-console
+                port:
+                  number: 9001
